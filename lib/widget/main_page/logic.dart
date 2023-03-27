@@ -1,11 +1,15 @@
 import 'package:chat/network/http/model/room_list_req.dart';
+import 'package:chatview/chatview.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../network/http/api.dart';
 import '../../network/http/model/char_room.dart';
 import '../../network/http/model/create_chat_req.dart';
 import '../../network/http/model/info_req.dart';
+import '../../network/websocket/socket.dart';
 import '../../utils/GlobalData.dart';
+import '../../utils/signUtil.dart';
 import '../../utils/snackbar.dart';
 import '../../utils/sp_utils.dart';
 import 'state.dart';
@@ -15,6 +19,7 @@ class Main_pageLogic extends GetxController {
 
   getUserInfo() async {
     String uid = await SPUtil().get("uid");
+    GlobalData.uid = uid;
     String email = await SPUtil().get("email");
     InfoReq infoReq = InfoReq(sign: '', timestamp: 0, uid: uid, email: email);
     var res = await OpenApi().getUserApi().apiUserInfoPost(infoReq: infoReq);
@@ -26,6 +31,23 @@ class Main_pageLogic extends GetxController {
     } else {
       SnackBar.show("Chat", res.data!.msg);
     }
+  }
+
+  joinChat(String roomId) async{
+    Map<String,dynamic> params = {
+      "uid":GlobalData.uid,
+      "sign":"",
+      "timestamp": DateTime.now().millisecondsSinceEpoch,
+    };
+    params["sign"] = SignUtil.getSign(params);
+    SocketClient.chatController = ChatController(
+      initialMessageList: SocketClient.chatList,
+      scrollController: ScrollController(),
+      chatUsers: [
+        ChatUser(id: '2', name: 'Chat')
+      ],
+    );
+    SocketClient.listenWebSocket(params,GlobalData.uid,roomId);
   }
 
   createChatRoom() async {
@@ -56,6 +78,7 @@ class Main_pageLogic extends GetxController {
     if (res!.data!.code == 200) {
       state.chatList.value = res.data!.data;
     } else {
+      state.refreshController.refreshFailed();
       SnackBar.show("Chat", res.data!.msg);
     }
   }

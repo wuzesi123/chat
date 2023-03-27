@@ -12,7 +12,7 @@ class LoginRes {
 
   String msg;
 
-  LoginResData data;
+  LoginResData? data;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is LoginRes &&
@@ -117,7 +117,6 @@ class LoginRes {
   static const requiredKeys = <String>{
     'code',
     'msg',
-    'data',
   };
 }
 

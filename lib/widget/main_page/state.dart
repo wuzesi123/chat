@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../network/http/model/char_room.dart';
+import '../../network/websocket/socket.dart';
 
 class Main_pageState {
   Main_pageState() {
@@ -10,4 +12,6 @@ class Main_pageState {
   RxInt balance = 0.obs;
   RxList<CharRoom> chatList = <CharRoom>[].obs;
   final ScrollController listController = ScrollController();
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
+  SocketClient socketClient = SocketClient();
 }

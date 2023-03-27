@@ -5,10 +5,12 @@ import 'package:chat/utils/GlobalData.dart';
 import 'package:chat/widget/login/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import '../../utils/loadingUtil.dart';
 import '../login/change_password/view.dart';
 import 'chat/view.dart';
 import 'logic.dart';
@@ -24,12 +26,11 @@ class _Main_pagePageState extends State<Main_pagePage> {
   final logic = Get.put(Main_pageLogic());
   final state = Get.find<Main_pageLogic>().state;
   final _advancedDrawerController = AdvancedDrawerController();
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
     await logic.getChatRoom();
-    _refreshController.refreshCompleted();
+    await logic.getUserInfo();
+    state.refreshController.refreshCompleted();
   }
 
   @override
@@ -124,21 +125,19 @@ class _Main_pagePageState extends State<Main_pagePage> {
                     },
                   ),
                 ),
-                title: Center(
-                  child: Text(
-                    "Chat",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                title: Text(
+                  "Chat",
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-                actions: [
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+                actions: const [
+                  //IconButton(onPressed: () {}, icon: const Icon(Icons.search))
                 ]),
             body: Container(
               color: Theme.of(context).colorScheme.onPrimary,
               width: Get.width,
               margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
               child: SmartRefresher(
-                  controller: _refreshController,
+                  controller: state.refreshController,
                   onRefresh: _onRefresh,
                   child: ListView(
                     controller: state.listController,
@@ -161,7 +160,8 @@ class _Main_pagePageState extends State<Main_pagePage> {
                                         ]),
                                     child: InkWell(
                                       onTap: () {
-                                        Get.to(const ChatPage());
+                                        LoadingUtil.show();
+                                        logic.joinChat(state.chatList[index].roomId);
                                       },
                                       child: Card(
                                         color: themeData.cardColor,

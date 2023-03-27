@@ -39,7 +39,7 @@ class ChangePasswordPage extends StatelessWidget {
                       Card(
                         child: SizedBox(
                           width: 330.w - 10.w,
-                          height: 300.w,
+                          height: 350.w,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -101,7 +101,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
     final ThemeData themeData = Theme.of(context);
     return Obx(() => Container(
       width: 330.w,
-      height: 195.w,
+      height: 260.w,
       margin: EdgeInsets.fromLTRB(5.w, 10.w, 5.w, 5.w),
       child: Form(
           key: state.formKey,
@@ -140,7 +140,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                 height: 65.w,
                 child: TextFormField(
                   onChanged: (value) {
-                    state.password = value;
+                    state.originPassword = value;
                   },
                   validator: (value) {
                     if(value ==null){
@@ -150,17 +150,17 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                   },
                   decoration: InputDecoration(
                       icon: const Icon(Icons.password),
-                      labelText: '密码'.tr,
+                      labelText: '旧密码'.tr,
                       border: const OutlineInputBorder(
                           borderRadius:
                           BorderRadius.all(Radius.circular(10))),
                       suffixIcon: IconButton(
-                        icon: Icon(state.showPassword.value
+                        icon: Icon(state.showOriginPassword.value
                             ? Icons.remove_red_eye
                             : Icons.remove_red_eye_outlined),
                         onPressed: () {
-                          state.showPassword.value =
-                          !state.showPassword.value;
+                          state.showOriginPassword.value =
+                          !state.showOriginPassword.value;
                         },
                       ),
                       contentPadding: EdgeInsets.symmetric(
@@ -169,7 +169,43 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                         fontSize: 10.sp,
                         color: Colors.redAccent,
                       )),
-                  obscureText: state.showPassword.value,
+                  obscureText: state.showOriginPassword.value,
+                ),
+              ),
+              SizedBox(
+                height: 65.w,
+                child: TextFormField(
+                  onChanged: (value) {
+                    state.newPassword = value;
+                  },
+                  validator: (value) {
+                    if(value ==null){
+                      return "密码不可少于8位".tr;
+                    }
+                    return value.length > 8 ? null : "密码不可少于8位".tr;
+                  },
+                  decoration: InputDecoration(
+                      icon: const Icon(Icons.password),
+                      labelText: '新密码'.tr,
+                      border: const OutlineInputBorder(
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(10))),
+                      suffixIcon: IconButton(
+                        icon: Icon(state.showNewPassword.value
+                            ? Icons.remove_red_eye
+                            : Icons.remove_red_eye_outlined),
+                        onPressed: () {
+                          state.showNewPassword.value =
+                          !state.showNewPassword.value;
+                        },
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 5.w, horizontal: 5.w),
+                      errorStyle: TextStyle(
+                        fontSize: 10.sp,
+                        color: Colors.redAccent,
+                      )),
+                  obscureText: state.showNewPassword.value,
                 ),
               ),
               SizedBox(

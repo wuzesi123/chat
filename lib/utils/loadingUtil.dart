@@ -17,4 +17,14 @@ class LoadingUtil {
       ..userInteractions = false
       ..dismissOnTap = false;
   }
+  static show(){
+    EasyLoading.show(status: "Loading");
+    Future.delayed(const Duration(seconds: 3)).whenComplete((){
+      if(EasyLoading.isShow){
+        EasyLoading.showError("Error");
+      }else{
+
+      }
+    });
+  }
 }

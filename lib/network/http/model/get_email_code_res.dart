@@ -11,7 +11,7 @@ class GetEmailCodeRes {
 
   String msg;
 
-  Object data;
+  Object? data;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is GetEmailCodeRes &&
@@ -31,15 +31,9 @@ class GetEmailCodeRes {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (code != null) {
-      _json[r'code'] = code;
-    }
-    if (msg != null) {
-      _json[r'msg'] = msg;
-    }
-    if (data != null) {
-      _json[r'data'] = data;
-    }
+    _json[r'code'] = code;
+    _json[r'msg'] = msg;
+    _json[r'data'] = data;
     return _json;
   }
 
@@ -116,7 +110,6 @@ class GetEmailCodeRes {
   static const requiredKeys = <String>{
     'code',
     'msg',
-    'data',
   };
 }
 

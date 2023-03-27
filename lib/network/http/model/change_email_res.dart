@@ -11,7 +11,7 @@ class ChangeEmailRes {
 
   String msg;
 
-  Object data;
+  Object? data;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ChangeEmailRes &&
@@ -116,7 +116,6 @@ class ChangeEmailRes {
   static const requiredKeys = <String>{
     'code',
     'msg',
-    'data',
   };
 }
 

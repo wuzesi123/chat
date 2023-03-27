@@ -7,11 +7,11 @@ class RegisterRes {
     required this.data,
   });
 
-  int code;
+  int? code;
 
-  String msg;
+  String? msg;
 
-  Object data;
+  Object? data;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is RegisterRes &&
@@ -116,7 +116,6 @@ class RegisterRes {
   static const requiredKeys = <String>{
     'code',
     'msg',
-    'data',
   };
 }
 

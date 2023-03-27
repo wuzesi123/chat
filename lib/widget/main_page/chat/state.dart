@@ -1,18 +1,13 @@
 import 'package:chatview/chatview.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../network/websocket/socket.dart';
 
 class ChatState {
   ChatState() {
     ///Initialize variables
-    chatController = ChatController(
-      initialMessageList: messageList,
-      scrollController: ScrollController(),
-      chatUsers: [ChatUser(id: '2', name: 'Simform')],
-    );
   }
-  ChatUser currentUser = ChatUser(id: '1', name: 'Flutter');
+  ChatUser currentUser = ChatUser(id: '1', name: 'User');
   RxString title = "chat".obs;
-  RxList<Message> messageList = <Message>[].obs;
-  late final ChatController chatController;
+  String roomId = "";
 }
