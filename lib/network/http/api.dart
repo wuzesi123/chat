@@ -10,9 +10,9 @@ import 'api/chat_api.dart';
 import 'api/email_api.dart';
 import 'api/user_api.dart';
 
-//String basePath = "http://chat.pkwinners.com";
+String basePath = "http://chat.pkwinners.com";
 //String basePath = "https://mock.apifox.cn/m1/2477817-0-default";
-String basePath = "http://10.0.0.7:5000";
+//String basePath = "http://10.0.0.7:5000";
 BaseOptions options = BaseOptions(
   baseUrl: basePath,
   connectTimeout: 3000,

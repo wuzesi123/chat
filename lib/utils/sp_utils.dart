@@ -12,4 +12,9 @@ class SPUtil{
     final SharedPreferences prefs = await _prefs;
     return prefs.setString(key,data);
   }
+
+  static reMove(String key) async{
+    final SharedPreferences prefs = await _prefs;
+    return prefs.remove(key);
+  }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat/network/http/model/room_list_req.dart';
 import 'package:chatview/chatview.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,27 +35,28 @@ class Main_pageLogic extends GetxController {
     }
   }
 
-  joinChat(String roomId) async{
-    Map<String,dynamic> params = {
-      "uid":GlobalData.uid,
-      "sign":"",
+  joinChat(String roomId) async {
+    Map<String, dynamic> params = {
+      "uid": GlobalData.uid,
+      "sign": "",
       "timestamp": DateTime.now().millisecondsSinceEpoch,
     };
     params["sign"] = SignUtil.getSign(params);
     SocketClient.chatController = ChatController(
       initialMessageList: SocketClient.chatList,
       scrollController: ScrollController(),
-      chatUsers: [
-        ChatUser(id: '2', name: 'Chat')
-      ],
+      chatUsers: [ChatUser(id: '2', name: 'Chat')],
     );
-    SocketClient.listenWebSocket(params,GlobalData.uid,roomId);
+    SocketClient.listenWebSocket(params, GlobalData.uid, roomId);
   }
 
   createChatRoom() async {
     String uid = await SPUtil().get("uid");
-    CreateChatReq createChatReq = CreateChatReq(sign: '', timestamp: 0, uid: uid);
-    var res = await OpenApi().getChatApi().apiChatCreatePost(createChatReq:createChatReq);
+    CreateChatReq createChatReq =
+        CreateChatReq(sign: '', timestamp: 0, uid: uid);
+    var res = await OpenApi()
+        .getChatApi()
+        .apiChatCreatePost(createChatReq: createChatReq);
     if (res!.data!.code == 200) {
       CharRoom data = CharRoom(
         createTime: res.data!.data.createTime,
@@ -63,7 +66,7 @@ class Main_pageLogic extends GetxController {
         updateTime: res.data!.data.updateTime,
       );
       state.chatList.insert(0, data);
-      //getChatRoom();
+      joinChat(res.data!.data.roomId);
     } else {
       SnackBar.show("Chat", res.data!.msg);
     }
@@ -77,6 +80,16 @@ class Main_pageLogic extends GetxController {
         .apiChatRoomListPost(roomListReq: roomListReq);
     if (res!.data!.code == 200) {
       state.chatList.value = res.data!.data;
+      for (var element in state.chatList) {
+        element.updateTime = HttpDate.parse(element.updateTime)
+            .toLocal()
+            .toString()
+            .substring(0, 19);
+        element.createTime = HttpDate.parse(element.createTime)
+            .toLocal()
+            .toString()
+            .substring(0, 19);
+      }
     } else {
       state.refreshController.refreshFailed();
       SnackBar.show("Chat", res.data!.msg);

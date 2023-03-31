@@ -21,8 +21,11 @@ class LoginPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-                margin: const EdgeInsets.fromLTRB(0, 0, 0, 100),
-                child: const FlutterLogo(size: 100)),
+                margin: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+                child: Image.asset("asset/ic_launcher.png",
+                  height: 100,
+                  width: 100,
+                )),
             Card(
               child: SizedBox(
                 width: 330,
@@ -87,6 +90,7 @@ class _LoginCardState extends State<LoginCard> {
                   SizedBox(
                     height: 65.w,
                     child: TextFormField(
+                      initialValue: "",
                       validator: (value) {
                         if (GetUtils.isEmail(value!)) {
                           return null;
@@ -115,6 +119,7 @@ class _LoginCardState extends State<LoginCard> {
                   SizedBox(
                     height: 65.w,
                     child: TextFormField(
+                      initialValue: "",
                       onChanged: (value) {
                         state.password = value;
                       },
@@ -122,7 +127,8 @@ class _LoginCardState extends State<LoginCard> {
                         if (value == null) {
                           return "密码不可少于8位".tr;
                         }
-                        return value.length > 8 ? null : "密码不可少于8位".tr;
+                        print(value.length);
+                        return value.length >= 8 ? null : "密码不可少于8位".tr;
                       },
                       decoration: InputDecoration(
                           icon: const Icon(Icons.password),

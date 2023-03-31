@@ -11,8 +11,8 @@ import '../../widget/main_page/chat/view.dart';
 import 'model/chat_item.dart';
 
 class SocketClient {
-  //static const String socketUrl = "http://chat.pkwinners.com";
-  static const String socketUrl = "http://10.0.0.7:5000";
+  static const String socketUrl = "http://chat.pkwinners.com";
+  //static const String socketUrl = "http://10.0.0.7:5000";
   static List<Message> chatList = <Message>[];
   static Socket? socket;
   static bool actionStatus = false;

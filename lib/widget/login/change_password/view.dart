@@ -33,9 +33,10 @@ class ChangePasswordPage extends StatelessWidget {
                   margin: EdgeInsets.fromLTRB(10.w, 5.w, 10.w, 5.w),
                   child: ListView(
                     children: [
-                      Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 50.w),
-                          child: FlutterLogo(size: 100.w)),
+                      Image.asset("asset/ic_launcher.png",
+                        height: 100,
+                        width: 100,
+                      ),
                       Card(
                         child: SizedBox(
                           width: 330.w - 10.w,

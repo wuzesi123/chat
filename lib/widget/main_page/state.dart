@@ -11,7 +11,7 @@ class Main_pageState {
   RxString account = "1843067844@qq.com".obs;
   RxInt balance = 0.obs;
   RxList<CharRoom> chatList = <CharRoom>[].obs;
-  final ScrollController listController = ScrollController();
-  final RefreshController refreshController = RefreshController(initialRefresh: false);
+  ScrollController listController = ScrollController();
+  RefreshController refreshController = RefreshController(initialRefresh: false);
   SocketClient socketClient = SocketClient();
 }
