@@ -1,10 +1,12 @@
 import 'package:chat/widget/login/view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'utils/authUtil.dart';
 import 'utils/loadingUtil.dart';
 import 'utils/signUtil.dart';
 import 'utils/sp_utils.dart';
@@ -14,6 +16,10 @@ var t;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   t = await SPUtil().get("token");
   runApp(const MyApp());
 }
@@ -42,12 +48,13 @@ class MyApp extends StatelessWidget {
               },
               child: DynamicColorBuilder(builder: (lightDynamic, darkDynamic) {
                 return GetMaterialApp(
-                  title: 'Flutter Demo',
+                  title: 'Chat',
                   // localizationsDelegates: const [
                   //   RefreshLocalizations.delegate,
                   // ],
                   onInit: () async {
                     LoadingUtil.init();
+                    AuthUtil.init();
                     await SignUtil.init();
                   },
                   locale: Get.deviceLocale,

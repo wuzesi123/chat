@@ -7,8 +7,10 @@ class ChangePasswordState {
   }
   late GlobalKey<FormState> formKey;
   String email = "";
-  String password = "";
-  RxBool showPassword = true.obs;
+  String newPassword = "";
+  String originPassword = "";
+  RxBool showNewPassword = true.obs;
+  RxBool showOriginPassword = true.obs;
   RxBool showCodeCheck = true.obs;
   String code = "";
   RxInt time = 0.obs;

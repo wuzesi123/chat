@@ -5,13 +5,17 @@ import 'package:chat/utils/GlobalData.dart';
 import 'package:chat/widget/login/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import '../../utils/loadingUtil.dart';
+import '../../utils/sp_utils.dart';
 import '../login/change_password/view.dart';
 import 'chat/view.dart';
 import 'logic.dart';
+import 'recharge/view.dart';
 
 class Main_pagePage extends StatefulWidget {
   const Main_pagePage({Key? key}) : super(key: key);
@@ -23,13 +27,12 @@ class Main_pagePage extends StatefulWidget {
 class _Main_pagePageState extends State<Main_pagePage> {
   final logic = Get.put(Main_pageLogic());
   final state = Get.find<Main_pageLogic>().state;
-  final _advancedDrawerController = AdvancedDrawerController();
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  var advancedDrawerController = AdvancedDrawerController();
 
   void _onRefresh() async {
     await logic.getChatRoom();
-    _refreshController.refreshCompleted();
+    await logic.getUserInfo();
+    state.refreshController.refreshCompleted();
   }
 
   @override
@@ -41,9 +44,10 @@ class _Main_pagePageState extends State<Main_pagePage> {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    return Obx(() => AdvancedDrawer(
+    return Obx(() => SafeArea(
+            child: AdvancedDrawer(
           backdropColor: Colors.blueGrey,
-          controller: _advancedDrawerController,
+          controller: advancedDrawerController,
           animationCurve: Curves.easeInOut,
           animationDuration: const Duration(milliseconds: 300),
           animateChildDecoration: true,
@@ -60,8 +64,10 @@ class _Main_pagePageState extends State<Main_pagePage> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  const FlutterLogo(
-                    size: 128,
+                  Image.asset(
+                    "asset/ic_launcher.png",
+                    height: 128,
+                    width: 128,
                   ),
                   ListTile(
                     onTap: () {},
@@ -69,9 +75,12 @@ class _Main_pagePageState extends State<Main_pagePage> {
                     title: Text(GlobalData.email.value),
                   ),
                   ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(RechargePage());
+                    },
                     leading: const Icon(Icons.monetization_on),
-                    title: Text("${'余额'.tr}:${GlobalData.money.value.toString()}"),
+                    title:
+                        Text("${'余额'.tr}:${GlobalData.money.value.toString()}"),
                   ),
                   ListTile(
                     onTap: () {
@@ -82,24 +91,13 @@ class _Main_pagePageState extends State<Main_pagePage> {
                   ),
                   ListTile(
                     onTap: () {
+                      SPUtil.reMove("token");
                       Get.offAll(LoginPage());
                     },
                     leading: const Icon(Icons.login_sharp),
                     title: Text('退出登录'.tr),
                   ),
                   const Spacer(),
-                  DefaultTextStyle(
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white54,
-                    ),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                        vertical: 16.0,
-                      ),
-                      child: const Text('Terms of Service | Privacy Policy'),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -109,10 +107,10 @@ class _Main_pagePageState extends State<Main_pagePage> {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 leading: IconButton(
                   onPressed: () {
-                    _advancedDrawerController.showDrawer();
+                    advancedDrawerController.showDrawer();
                   },
                   icon: ValueListenableBuilder<AdvancedDrawerValue>(
-                    valueListenable: _advancedDrawerController,
+                    valueListenable: advancedDrawerController,
                     builder: (_, value, __) {
                       return AnimatedSwitcher(
                         duration: const Duration(milliseconds: 250),
@@ -124,21 +122,19 @@ class _Main_pagePageState extends State<Main_pagePage> {
                     },
                   ),
                 ),
-                title: Center(
-                  child: Text(
-                    "Chat",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                title: Text(
+                  "Chat",
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-                actions: [
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+                actions: const [
+                  //IconButton(onPressed: () {}, icon: const Icon(Icons.search))
                 ]),
             body: Container(
               color: Theme.of(context).colorScheme.onPrimary,
               width: Get.width,
               margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
               child: SmartRefresher(
-                  controller: _refreshController,
+                  controller: state.refreshController,
                   onRefresh: _onRefresh,
                   child: ListView(
                     controller: state.listController,
@@ -153,7 +149,9 @@ class _Main_pagePageState extends State<Main_pagePage> {
                                         extentRatio: 0.2,
                                         children: [
                                           SlidableAction(
-                                            onPressed: (context) async {},
+                                            onPressed: (context) async {
+                                              state.chatList.removeAt(index);
+                                            },
                                             backgroundColor: Colors.redAccent,
                                             foregroundColor: Colors.white,
                                             icon: Icons.delete,
@@ -161,7 +159,9 @@ class _Main_pagePageState extends State<Main_pagePage> {
                                         ]),
                                     child: InkWell(
                                       onTap: () {
-                                        Get.to(const ChatPage());
+                                        LoadingUtil.show();
+                                        logic.joinChat(
+                                            state.chatList[index].roomId);
                                       },
                                       child: Card(
                                         color: themeData.cardColor,
@@ -178,8 +178,10 @@ class _Main_pagePageState extends State<Main_pagePage> {
                                                   5.w, 5.w, 0, 5.w),
                                               height: 40.w,
                                               width: 40.w,
-                                              child: FlutterLogo(
-                                                size: 40.w,
+                                              child: Image.asset(
+                                                "asset/ic_launcher.png",
+                                                height: 40.w,
+                                                width: 40.w,
                                               ),
                                             ),
                                             Expanded(
@@ -194,13 +196,15 @@ class _Main_pagePageState extends State<Main_pagePage> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     AutoSizeText(
-                                                      state.chatList[index].title,
+                                                      state.chatList[index]
+                                                          .title,
                                                       maxLines: 1,
                                                       style: themeData
                                                           .textTheme.titleSmall,
                                                     ),
                                                     AutoSizeText(
-                                                      state.chatList[index].updateTime,
+                                                      state.chatList[index]
+                                                          .updateTime,
                                                       maxLines: 1,
                                                       style: themeData
                                                           .textTheme.bodySmall,
@@ -213,11 +217,15 @@ class _Main_pagePageState extends State<Main_pagePage> {
                                               width: 100.w,
                                               height: 40.w,
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: [
-                                                  AutoSizeText(state.chatList[index].createTime,
+                                                  AutoSizeText(
+                                                    state.chatList[index]
+                                                        .createTime,
                                                     maxLines: 1,
-                                                    style: themeData.textTheme.bodySmall,
+                                                    style: themeData
+                                                        .textTheme.bodySmall,
                                                   )
                                                 ],
                                               ),
@@ -240,6 +248,6 @@ class _Main_pagePageState extends State<Main_pagePage> {
               child: const Icon(Icons.add),
             ),
           ),
-        ));
+        )));
   }
 }

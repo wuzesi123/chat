@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../network/http/model/info_req.dart';
 import '../../network/http/model/login_req.dart';
 import '../../utils/GlobalData.dart';
+import '../../utils/signUtil.dart';
 import '../../utils/snackbar.dart';
 import '../../utils/sp_utils.dart';
 import '../main_page/view.dart';
@@ -19,12 +20,13 @@ class LoginLogic extends GetxController {
       email: email,
       password: password,
     );
+    loginReq.password = await SignUtil.rsa(loginReq.password);
     var res = await OpenApi().getUserApi().apiUserLoginPost(loginReq: loginReq);
     if (res!.data!.code == 200) {
-      await SPUtil().setString("token", res.data!.data.token);
+      await SPUtil().setString("token", res.data!.data!.token);
       await SPUtil().setString("email", email);
-      await SPUtil().setString("uid", res.data!.data.uid);
-      GlobalData.uid = res.data!.data.uid;
+      await SPUtil().setString("uid", res.data!.data!.uid);
+      GlobalData.uid = res.data!.data!.uid;
       getUserInfo(GlobalData.uid,email);
     } else {
       SnackBar.show("Chat", res.data!.msg);

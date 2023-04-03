@@ -5,10 +5,14 @@ import 'package:get/get.dart';
 
 import '../../../network/http/model/get_email_code_req.dart';
 import '../../../network/http/model/register_req.dart';
+import '../../../utils/signUtil.dart';
+import '../logic.dart';
 import 'state.dart';
 
 class RegisterLogic extends GetxController {
   final RegisterState state = RegisterState();
+
+  final loginLogic = Get.put(LoginLogic());
 
   register() async {
     RegisterReq registerReq = RegisterReq(
@@ -18,8 +22,9 @@ class RegisterLogic extends GetxController {
       password: state.password,
       code: state.code,
     );
-    var res = await OpenApi().getUserApi().apiUserRegisterPost();
-
+    registerReq.password = await SignUtil.rsa(state.password);
+    var res = await OpenApi().getUserApi().apiUserRegisterPost(registerReq:registerReq);
+    loginLogic.login(state.email, state.password);
   }
 
   getCode() async {
@@ -39,6 +44,4 @@ class RegisterLogic extends GetxController {
       state.time.value--;
     });
   }
-
-
 }

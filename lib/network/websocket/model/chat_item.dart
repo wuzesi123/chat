@@ -1,44 +1,36 @@
-import '../model_util.dart';
+import '../../http/model_util.dart';
 class ChatItem {
   /// Returns a new [ChatItem] instance.
   ChatItem({
-    required this.id,
-    required this.title,
-    required this.lastDatetime,
+    required this.role,
+    required this.content,
   });
 
-  int id;
+  String role;
 
-  String title;
-
-  String lastDatetime;
+  String content;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ChatItem &&
-     other.id == id &&
-     other.title == title &&
-     other.lastDatetime == lastDatetime;
+     other.role == role &&
+     other.content == content;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (id == null ? 0 : id!.hashCode) +
-    (title == null ? 0 : title!.hashCode) +
-    (lastDatetime == null ? 0 : lastDatetime!.hashCode);
+    (role == null ? 0 : role!.hashCode) +
+    (content == null ? 0 : content!.hashCode);
 
   @override
-  String toString() => 'ChatItem[id=$id, title=$title, lastDatetime=$lastDatetime]';
+  String toString() => 'ChatItem[role=$role, content=$content]';
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (id != null) {
-      _json[r'id'] = id;
+    if (role != null) {
+      _json[r'role'] = role;
     }
-    if (title != null) {
-      _json[r'title'] = title;
-    }
-    if (lastDatetime != null) {
-      _json[r'lastDatetime'] = lastDatetime;
+    if (content != null) {
+      _json[r'content'] = content;
     }
     return _json;
   }
@@ -62,9 +54,8 @@ class ChatItem {
       }());
 
       return ChatItem(
-        id: mapValueOfType<int>(json, r'id'),
-        title: mapValueOfType<String>(json, r'title'),
-        lastDatetime: mapValueOfType<String>(json, r'lastDatetime'),
+        role: mapValueOfType<String>(json, r'role'),
+        content: mapValueOfType<String>(json, r'content'),
       );
     }
     return null;
@@ -114,9 +105,8 @@ class ChatItem {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'id',
-    'title',
-    'lastDatetime',
+    'role',
+    'content',
   };
 }
 
