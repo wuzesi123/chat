@@ -32,7 +32,7 @@ class RegisterPage extends StatelessWidget {
               children: [
                 Expanded(
                     child: Container(
-                  margin: EdgeInsets.fromLTRB(10.w, 5.w, 10.w, 5.w),
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
                   child: ListView(
                     children: [
                       Image.asset("asset/ic_launcher.png",
@@ -41,14 +41,14 @@ class RegisterPage extends StatelessWidget {
                       ),
                       Card(
                         child: SizedBox(
-                          width: 330.w - 10.w,
-                          height: 300.w,
+                          width: 330 - 10,
+                          height: 300,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const RegisterCard(),
                               Container(
-                                margin: EdgeInsets.fromLTRB(0, 5.w, 0, 5.w),
+                                margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -127,16 +127,16 @@ class _RegisterCardState extends State<RegisterCard> {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return Obx(() => Container(
-          width: 330.w,
-          height: 195.w,
-          margin: EdgeInsets.fromLTRB(5.w, 10.w, 5.w, 5.w),
+          width: 330,
+          height: 195,
+          margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
           child: Form(
               key: state.formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: 65.w,
+                    height: 65,
                     child: TextFormField(
                       initialValue: "",
                       validator: (value) {
@@ -158,7 +158,7 @@ class _RegisterCardState extends State<RegisterCard> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 5.w, horizontal: 5.w),
+                              vertical: 5, horizontal: 5),
                           errorStyle: TextStyle(
                             fontSize: 10.sp,
                             color: Colors.redAccent,
@@ -166,7 +166,7 @@ class _RegisterCardState extends State<RegisterCard> {
                     ),
                   ),
                   SizedBox(
-                    height: 65.w,
+                    height: 65,
                     child: TextFormField(
                       initialValue: "",
                       onChanged: (value) {
@@ -176,7 +176,7 @@ class _RegisterCardState extends State<RegisterCard> {
                         if(value ==null){
                           return "密码不可少于8位".tr;
                         }
-                        return value.length > 8 ? null : "密码不可少于8位".tr;
+                        return value.length >= 8 ? null : "密码不可少于8位".tr;
                       },
                       decoration: InputDecoration(
                           icon: const Icon(Icons.password),
@@ -194,7 +194,7 @@ class _RegisterCardState extends State<RegisterCard> {
                             },
                           ),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 5.w, horizontal: 5.w),
+                              vertical: 5, horizontal: 5),
                           errorStyle: TextStyle(
                             fontSize: 10.sp,
                             color: Colors.redAccent,
@@ -203,7 +203,7 @@ class _RegisterCardState extends State<RegisterCard> {
                     ),
                   ),
                   SizedBox(
-                    height: 65.w,
+                    height: 65,
                     child: TextFormField(
                       initialValue: "",
                       onChanged: (value) {
@@ -225,7 +225,7 @@ class _RegisterCardState extends State<RegisterCard> {
                             },
                           ),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 5.w, horizontal: 5.w),
+                              vertical: 5, horizontal: 5),
                           errorStyle: TextStyle(
                             fontSize: 10.sp,
                             color: Colors.redAccent,

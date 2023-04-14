@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
                   // ],
                   onInit: () async {
                     LoadingUtil.init();
-                    AuthUtil.init();
+                    //AuthUtil.init();
                     await SignUtil.init();
                   },
                   locale: Get.deviceLocale,

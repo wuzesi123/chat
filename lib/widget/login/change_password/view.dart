@@ -30,7 +30,7 @@ class ChangePasswordPage extends StatelessWidget {
           children: [
             Expanded(
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(10.w, 5.w, 10.w, 5.w),
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
                   child: ListView(
                     children: [
                       Image.asset("asset/ic_launcher.png",
@@ -39,14 +39,14 @@ class ChangePasswordPage extends StatelessWidget {
                       ),
                       Card(
                         child: SizedBox(
-                          width: 330.w - 10.w,
-                          height: 350.w,
+                          width: 330 - 10,
+                          height: 350,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const ChangePasswordCard(),
                               Container(
-                                margin: EdgeInsets.fromLTRB(0, 5.w, 0, 5.w),
+                                margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                                 child: Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceEvenly,
@@ -101,16 +101,16 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return Obx(() => Container(
-      width: 330.w,
-      height: 260.w,
-      margin: EdgeInsets.fromLTRB(5.w, 10.w, 5.w, 5.w),
+      width: 330,
+      height: 260,
+      margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
       child: Form(
           key: state.formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                height: 65.w,
+                height: 65,
                 child: TextFormField(
                   validator: (value) {
                     if (GetUtils.isEmail(value!)) {
@@ -130,7 +130,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                           borderRadius:
                           BorderRadius.all(Radius.circular(10))),
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: 5.w, horizontal: 5.w),
+                          vertical: 5, horizontal: 5),
                       errorStyle: TextStyle(
                         fontSize: 10.sp,
                         color: Colors.redAccent,
@@ -138,7 +138,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                 ),
               ),
               SizedBox(
-                height: 65.w,
+                height: 65,
                 child: TextFormField(
                   onChanged: (value) {
                     state.originPassword = value;
@@ -147,7 +147,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                     if(value ==null){
                       return "密码不可少于8位".tr;
                     }
-                    return value.length > 8 ? null : "密码不可少于8位".tr;
+                    return value.length >= 8 ? null : "密码不可少于8位".tr;
                   },
                   decoration: InputDecoration(
                       icon: const Icon(Icons.password),
@@ -165,7 +165,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                         },
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: 5.w, horizontal: 5.w),
+                          vertical: 5, horizontal: 5),
                       errorStyle: TextStyle(
                         fontSize: 10.sp,
                         color: Colors.redAccent,
@@ -174,7 +174,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                 ),
               ),
               SizedBox(
-                height: 65.w,
+                height: 65,
                 child: TextFormField(
                   onChanged: (value) {
                     state.newPassword = value;
@@ -183,7 +183,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                     if(value ==null){
                       return "密码不可少于8位".tr;
                     }
-                    return value.length > 8 ? null : "密码不可少于8位".tr;
+                    return value.length >= 8 ? null : "密码不可少于8位".tr;
                   },
                   decoration: InputDecoration(
                       icon: const Icon(Icons.password),
@@ -201,7 +201,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                         },
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: 5.w, horizontal: 5.w),
+                          vertical: 5, horizontal: 5),
                       errorStyle: TextStyle(
                         fontSize: 10.sp,
                         color: Colors.redAccent,
@@ -210,7 +210,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                 ),
               ),
               SizedBox(
-                height: 65.w,
+                height: 65,
                 child: TextFormField(
                   onChanged: (value) {
                     state.code = value;
@@ -231,7 +231,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                         },
                       ),
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: 5.w, horizontal: 5.w),
+                          vertical: 5, horizontal: 5),
                       errorStyle: TextStyle(
                         fontSize: 10.sp,
                         color: Colors.redAccent,

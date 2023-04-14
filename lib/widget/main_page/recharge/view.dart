@@ -26,13 +26,13 @@ class RechargePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(20.w, 10.w, 20.w, 10.w),
-                height: 50.w,
-                width: 200.w,
+                margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                height: 50,
+                width: 200,
                 child: Center(child: AutoSizeText(state.rechargeNum.toString())),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(20.w, 10.w, 20.w, 10.w),
+                margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                 child: Center(
                   child: ElevatedButton(
                       onPressed: () {}, child: AutoSizeText("充值".tr)),

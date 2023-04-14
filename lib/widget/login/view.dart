@@ -88,7 +88,7 @@ class _LoginCardState extends State<LoginCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: 65.w,
+                    height: 85,
                     child: TextFormField(
                       initialValue: "",
                       validator: (value) {
@@ -108,8 +108,8 @@ class _LoginCardState extends State<LoginCard> {
                           border: const OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 5.w, horizontal: 5.w),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 5),
                           errorStyle: TextStyle(
                             fontSize: 10.sp,
                             color: Colors.redAccent,
@@ -117,7 +117,7 @@ class _LoginCardState extends State<LoginCard> {
                     ),
                   ),
                   SizedBox(
-                    height: 65.w,
+                    height: 65,
                     child: TextFormField(
                       initialValue: "",
                       onChanged: (value) {
@@ -146,7 +146,7 @@ class _LoginCardState extends State<LoginCard> {
                             },
                           ),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 5.w, horizontal: 5.w),
+                              vertical: 5, horizontal: 5),
                           errorStyle: TextStyle(
                             fontSize: 10.sp,
                             color: Colors.redAccent,

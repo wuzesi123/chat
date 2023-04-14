@@ -175,19 +175,19 @@ class _Main_pagePageState extends State<Main_pagePage> {
                                           children: [
                                             Container(
                                               margin: EdgeInsets.fromLTRB(
-                                                  5.w, 5.w, 0, 5.w),
-                                              height: 40.w,
-                                              width: 40.w,
+                                                  5, 5, 0, 5),
+                                              height: 40,
+                                              width: 40,
                                               child: Image.asset(
                                                 "asset/ic_launcher.png",
-                                                height: 40.w,
-                                                width: 40.w,
+                                                height: 40,
+                                                width: 40,
                                               ),
                                             ),
                                             Expanded(
                                               child: Container(
                                                 margin: EdgeInsets.fromLTRB(
-                                                    5.w, 2.w, 5.w, 2.w),
+                                                    5, 2, 5, 2),
                                                 child: Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -214,8 +214,8 @@ class _Main_pagePageState extends State<Main_pagePage> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 100.w,
-                                              height: 40.w,
+                                              width: 100,
+                                              height: 40,
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
