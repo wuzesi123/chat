@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../../network/http/api.dart';
 import '../../../network/http/model/change_email_req.dart';
 import '../../../network/http/model/get_email_code_req.dart';
+import '../../../utils/signUtil.dart';
 import '../logic.dart';
 import 'state.dart';
 
@@ -44,6 +45,8 @@ class ChangePasswordLogic extends GetxController {
         //需要过去的密码
         newPassword: state.newPassword,
         code: state.code);
+    changePasswordReq.originPassword = await SignUtil.rsa(state.originPassword);
+    changePasswordReq.newPassword = await SignUtil.rsa(state.newPassword);
     var res = await OpenApi()
         .getUserApi()
         .apiUserChangePasswordPost(changePasswordReq: changePasswordReq);

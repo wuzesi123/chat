@@ -132,7 +132,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                       contentPadding: EdgeInsets.symmetric(
                           vertical: 5, horizontal: 5),
                       errorStyle: TextStyle(
-                        fontSize: 10.sp,
+                        fontSize: 12,
                         color: Colors.redAccent,
                       )),
                 ),
@@ -167,7 +167,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                       contentPadding: EdgeInsets.symmetric(
                           vertical: 5, horizontal: 5),
                       errorStyle: TextStyle(
-                        fontSize: 10.sp,
+                        fontSize: 12,
                         color: Colors.redAccent,
                       )),
                   obscureText: state.showOriginPassword.value,
@@ -203,7 +203,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                       contentPadding: EdgeInsets.symmetric(
                           vertical: 5, horizontal: 5),
                       errorStyle: TextStyle(
-                        fontSize: 10.sp,
+                        fontSize: 12,
                         color: Colors.redAccent,
                       )),
                   obscureText: state.showNewPassword.value,
@@ -233,7 +233,7 @@ class _ChangePasswordCardState extends State<ChangePasswordCard> {
                       contentPadding: EdgeInsets.symmetric(
                           vertical: 5, horizontal: 5),
                       errorStyle: TextStyle(
-                        fontSize: 10.sp,
+                        fontSize: 12,
                         color: Colors.redAccent,
                       )),
                   obscureText: state.showCodeCheck.value,

@@ -24,7 +24,9 @@ class RegisterLogic extends GetxController {
     );
     registerReq.password = await SignUtil.rsa(state.password);
     var res = await OpenApi().getUserApi().apiUserRegisterPost(registerReq:registerReq);
-    loginLogic.login(state.email, state.password);
+    if(res!.data!.code == 200){
+      loginLogic.login(state.email, state.password);
+    }
   }
 
   getCode() async {

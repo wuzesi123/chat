@@ -111,7 +111,7 @@ class _LoginCardState extends State<LoginCard> {
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 5),
                           errorStyle: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 12,
                             color: Colors.redAccent,
                           )),
                     ),
@@ -148,7 +148,7 @@ class _LoginCardState extends State<LoginCard> {
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 5, horizontal: 5),
                           errorStyle: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 12,
                             color: Colors.redAccent,
                           )),
                       obscureText: state.showPassword.value,

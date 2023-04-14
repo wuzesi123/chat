@@ -160,7 +160,7 @@ class _RegisterCardState extends State<RegisterCard> {
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 5, horizontal: 5),
                           errorStyle: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 12,
                             color: Colors.redAccent,
                           )),
                     ),
@@ -196,7 +196,7 @@ class _RegisterCardState extends State<RegisterCard> {
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 5, horizontal: 5),
                           errorStyle: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 12,
                             color: Colors.redAccent,
                           )),
                       obscureText: state.showPassword.value,
@@ -227,7 +227,7 @@ class _RegisterCardState extends State<RegisterCard> {
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 5, horizontal: 5),
                           errorStyle: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 12,
                             color: Colors.redAccent,
                           )),
                       obscureText: state.showCodeCheck.value,
