@@ -123,10 +123,13 @@ class _Main_pagePageState extends State<Main_pagePage> {
                   ),
                 ),
                 title: Text(
-                  "Chat",
+                  "ChatAi",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                actions: const [
+                actions: [
+                  IconButton(onPressed: () {
+                    _onRefresh();
+                  }, icon: const Icon(Icons.refresh))
                   //IconButton(onPressed: () {}, icon: const Icon(Icons.search))
                 ]),
             body: Container(

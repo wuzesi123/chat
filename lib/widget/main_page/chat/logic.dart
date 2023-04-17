@@ -17,6 +17,15 @@ class ChatLogic extends GetxController {
       messageType: messageType,
     );
     SocketClient.chatController.addMessage(messageData);
+    final messageDataLoading = Message(
+      id: const Uuid().v4(),
+      message: "......",
+      createdAt: DateTime.now(),
+      sendBy: "2",
+      replyMessage: replyMessage,
+      messageType: messageType,
+    );
+    SocketClient.chatController.addMessage(messageDataLoading);
     Map<String,dynamic> params = {
       "uid":GlobalData.uid,
       "room_id":state.roomId,
@@ -25,6 +34,7 @@ class ChatLogic extends GetxController {
       "sign":""
     };
     params["sign"] = SignUtil.getSign(params);
+
     SocketClient.ask(params);
   }
 }

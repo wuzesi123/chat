@@ -12,6 +12,7 @@ import 'model/chat_item.dart';
 
 class SocketClient {
   static const String socketUrl = "http://chat.pkwinners.com";
+
   //static const String socketUrl = "http://10.0.0.7:5000";
   static List<Message> chatList = <Message>[];
   static Socket? socket;
@@ -21,7 +22,10 @@ class SocketClient {
     initialMessageList: chatList,
     scrollController: ScrollController(),
     chatUsers: [
-      ChatUser(id: '2', name: 'Chat')
+      ChatUser(
+        id: '2',
+        name: 'ChatAi',
+      )
     ],
   );
 
@@ -73,15 +77,16 @@ class SocketClient {
     // 链接断开时调用
     socket!.on('disconnect', (data) {});
     socket!.on('ask_message', (data) {
+      chatController.initialMessageList.removeLast();
       data = json.decode(data);
-      if(data["code"] == 200){
+      if (data["code"] == 200) {
         Message messageData = Message(
           message: data["data"]["answer"],
           createdAt: DateTime.now(),
           sendBy: "2",
         );
         chatController.addMessage(messageData);
-      }else{
+      } else {
         SnackBar.show("Chat", "${data["msg"]}");
       }
       print(data);
@@ -90,8 +95,9 @@ class SocketClient {
       print(data);
       Map<String, dynamic> map = json.decode(data);
       print(map["data"]["text"]);
-      if(map["data"]["text"]!=null){
-        List<ChatItem> res = ChatItem.listFromJson(json.decode(map["data"]["text"]))!;
+      if (map["data"]["text"] != null) {
+        List<ChatItem> res =
+            ChatItem.listFromJson(json.decode(map["data"]["text"]))!;
         chatController.initialMessageList.clear();
         for (var element in res) {
           Message messageData = Message(
@@ -101,7 +107,7 @@ class SocketClient {
           );
           chatController.addMessage(messageData);
         }
-      }else{
+      } else {
         chatController.initialMessageList = [];
       }
       Get.to(ChatPage(roomId: roomId));

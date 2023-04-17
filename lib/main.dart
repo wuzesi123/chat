@@ -48,10 +48,11 @@ class MyApp extends StatelessWidget {
               },
               child: DynamicColorBuilder(builder: (lightDynamic, darkDynamic) {
                 return GetMaterialApp(
-                  title: 'Chat',
+                  title: 'ChatAi',
                   // localizationsDelegates: const [
                   //   RefreshLocalizations.delegate,
                   // ],
+                  debugShowCheckedModeBanner: false,
                   onInit: () async {
                     LoadingUtil.init();
                     //AuthUtil.init();
