@@ -19,7 +19,7 @@ class LoadingUtil {
   }
   static show(){
     EasyLoading.show(status: "Loading");
-    Future.delayed(const Duration(seconds: 3)).whenComplete((){
+    Future.delayed(const Duration(seconds: 10)).whenComplete((){
       if(EasyLoading.isShow){
         EasyLoading.showError("Error");
       }else{
