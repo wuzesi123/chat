@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../network/http/model/info_req.dart';
 import '../../network/http/model/login_req.dart';
+import '../../network/websocket/socket.dart';
 import '../../utils/GlobalData.dart';
 import '../../utils/signUtil.dart';
 import '../../utils/snackbar.dart';
@@ -40,6 +41,13 @@ class LoginLogic extends GetxController {
       GlobalData.email.value = res.data!.data.info.email;
       GlobalData.money.value = res.data!.data.info.money;
       GlobalData.phone.value = res.data!.data.info.phone;
+      Map<String, dynamic> params = {
+        "uid": GlobalData.uid,
+        "sign": "",
+        "timestamp": DateTime.now().millisecondsSinceEpoch,
+      };
+      params["sign"] = SignUtil.getSign(params);
+      SocketClient.listenWebSocket(params, uid);
       Get.to(const Main_pagePage());
     } else {
       SnackBar.show("Chat", res.data!.msg);

@@ -1,8 +1,10 @@
 import 'package:chatview/chatview.dart';
+import 'package:components/toly_ui/markdown/markdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../../network/websocket/socket.dart';
+import '../chat_list/view.dart';
 import 'logic.dart';
 
 class ChatPage extends StatefulWidget {
@@ -28,33 +30,42 @@ class _ChatPageState extends State<ChatPage> {
     state.roomId = widget.roomId;
     final ThemeData themeData = Theme.of(context);
     return Obx(() => Scaffold(
-          body: ChatView(
-            appBar: ChatViewAppBar(
-              chatTitle: state.title.value,
-              onBackPress: () {
-                Get.back();
-              },
-            ),
-            currentUser: ChatUser(id: '1', name: 'User'),
-            chatController: SocketClient.chatController,
-            onSendTap: logic.onSendTap,
-            chatViewState: ChatViewState.hasMessages,
-            chatBackgroundConfig: ChatBackgroundConfiguration(
-                backgroundColor: themeData.colorScheme.primaryContainer,
-                sortEnable: false),
-            sendMessageConfig: SendMessageConfiguration(
-              textFieldConfig: TextFieldConfiguration(
-                  textStyle: themeData.textTheme.bodyMedium),
-              allowRecordingVoice: false,
-            ),
-            chatBubbleConfig: ChatBubbleConfiguration(
-              onDoubleTap: (message) async {
-                await Clipboard.setData(ClipboardData(text: message.message));
-                Get.snackbar("ChatAi", "copy success",
-                    duration: const Duration(seconds: 1));
-              },
-            ),
+          appBar: AppBar(
+            title: Text(state.title.value),
           ),
+          body: ChatListPage(
+            currentUser: User(id: '1', name: 'User'),
+
+          ),
+          // ChatView(
+          //   currentUser: ChatUser(id: '1', name: 'User'),
+          //   chatController: SocketClient.chatController,
+          //   onSendTap: logic.onSendTap,
+          //   chatViewState: ChatViewState.hasMessages,
+          //   chatBackgroundConfig: ChatBackgroundConfiguration(
+          //       backgroundColor: themeData.colorScheme.primaryContainer,
+          //       sortEnable: false),
+          //   sendMessageConfig: SendMessageConfiguration(
+          //     textFieldConfig: TextFieldConfiguration(
+          //         textStyle: themeData.textTheme.bodyMedium),
+          //     allowRecordingVoice: false,
+          //   ),
+          //   chatBubbleConfig: ChatBubbleConfiguration(
+          //     onDoubleTap: (message) async {
+          //       await Clipboard.setData(ClipboardData(text: message.message));
+          //       SnackBar snackBar = SnackBar(
+          //         content: const Text('Yay! Copy Success!'),
+          //         action: SnackBarAction(
+          //           label: 'Undo',
+          //           onPressed: (){
+          //             ScaffoldMessenger.of(context).clearSnackBars();
+          //           },
+          //         ),
+          //       );
+          //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          //     },
+          //   ),
+          // ),
         ));
   }
 }

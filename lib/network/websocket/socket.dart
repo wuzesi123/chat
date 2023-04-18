@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:chatview/chatview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import '../../utils/GlobalData.dart';
 import '../../utils/signUtil.dart';
 import '../../utils/snackbar.dart';
 import '../../utils/sp_utils.dart';
 import '../../widget/main_page/chat/view.dart';
+import '../../widget/main_page/chat_list/chat_list.dart';
+import '../../widget/main_page/chat_list/logic.dart';
 import 'model/chat_item.dart';
 
 class SocketClient {
@@ -18,16 +20,7 @@ class SocketClient {
   static Socket? socket;
   static bool actionStatus = false;
 
-  static ChatController chatController = ChatController(
-    initialMessageList: chatList,
-    scrollController: ScrollController(),
-    chatUsers: [
-      ChatUser(
-        id: '2',
-        name: 'ChatAi',
-      )
-    ],
-  );
+  static String roomId = "";
 
   static clean() async {
     if (socket != null) {
@@ -42,7 +35,9 @@ class SocketClient {
   }
 
   static listenWebSocket(
-      Map<dynamic, dynamic> params, String uid, String roomId) async {
+      Map<dynamic, dynamic> params, String uid) async {
+    final logic = Get.put(ChatListLogic());
+    final state = Get.find<ChatListLogic>().state;
     String token = await SPUtil().get("token");
     Map<String, dynamic> headers = {"token": token};
     await clean();
@@ -60,15 +55,7 @@ class SocketClient {
     socket!.on('ping', (data) {});
     socket!.on('pong', (data) {});
     socket!.on('connect', (data) async {
-      params = {
-        "uid": uid,
-        "room_id": roomId,
-        "timestamp": 0,
-        "sign": "",
-      };
-      params["timestamp"] = DateTime.now().millisecondsSinceEpoch;
-      params["sign"] = SignUtil.getSign(params);
-      socket!.emit("join", params);
+      print('connect');
     });
     socket!.on('error', (data) {
       EasyLoading.showError("Error",
@@ -77,15 +64,21 @@ class SocketClient {
     // 链接断开时调用
     socket!.on('disconnect', (data) {});
     socket!.on('ask_message', (data) {
-      chatController.initialMessageList.removeLast();
+      state.messageList.removeLast();
       data = json.decode(data);
       if (data["code"] == 200) {
         Message messageData = Message(
           message: data["data"]["answer"],
           createdAt: DateTime.now(),
           sendBy: "2",
+          id: '',
         );
-        chatController.addMessage(messageData);
+        state.messageList.add(messageData);
+        GlobalData.chatListCtl.animateTo(
+          0.0,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
       } else {
         SnackBar.show("Chat", "${data["msg"]}");
       }
@@ -98,17 +91,17 @@ class SocketClient {
       if (map["data"]["text"] != null) {
         List<ChatItem> res =
             ChatItem.listFromJson(json.decode(map["data"]["text"]))!;
-        chatController.initialMessageList.clear();
+        state.messageList.clear();
         for (var element in res) {
           Message messageData = Message(
             message: element.content,
             createdAt: DateTime.now(),
-            sendBy: element.role == "user" ? "1" : "2",
+            sendBy: element.role == "user" ? "1" : "2", id: "",
           );
-          chatController.addMessage(messageData);
+          state.messageList.add(messageData);
         }
       } else {
-        chatController.initialMessageList = [];
+        state.messageList.value = [];
       }
       Get.to(ChatPage(roomId: roomId));
       EasyLoading.dismiss();
@@ -129,5 +122,18 @@ class SocketClient {
 
   static ask(Map<String, dynamic> params) {
     socket!.emit("ask", params);
+  }
+
+  static joinInRoom(String uid, String roomId2){
+    roomId = roomId2;
+    Map<String, dynamic> params = {
+      "uid": uid,
+      "room_id": roomId2,
+      "timestamp": 0,
+      "sign": "",
+    };
+    params["timestamp"] = DateTime.now().millisecondsSinceEpoch;
+    params["sign"] = SignUtil.getSign(params);
+    socket!.emit("join", params);
   }
 }

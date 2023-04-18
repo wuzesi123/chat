@@ -19,6 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import 'package:components/toly_ui/markdown/markdown_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatview/src/extensions/extensions.dart';
@@ -39,11 +40,11 @@ class TextMessageView extends StatelessWidget {
     this.messageReactionConfig,
     this.highlightMessage = false,
     this.highlightColor,
+    this.textWidget,
   }) : super(key: key);
-  
+
   ///添加自定义widget
-  
-  
+  final Widget? textWidget;
 
   /// Represents current message is sent by current user.
   final bool isMessageBySender;
@@ -98,13 +99,8 @@ class TextMessageView extends StatelessWidget {
                   linkPreviewConfig: _linkPreviewConfig,
                   url: textMessage,
                 )
-              : Text(
-                  textMessage,
-                  style: _textStyle ??
-                      textTheme.bodyMedium!.copyWith(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
+              : MarkdownWidget(
+                  markdownData: textMessage,
                 ),
         ),
         if (message.reaction.reactions.isNotEmpty)

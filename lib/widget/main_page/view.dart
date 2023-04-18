@@ -64,10 +64,16 @@ class _Main_pagePageState extends State<Main_pagePage> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Image.asset(
-                    "asset/ic_launcher.png",
-                    height: 128,
-                    width: 128,
+                  Container(
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Image.asset(
+                      "asset/chat_icon.png",
+                      height: 128,
+                      width: 128,
+                    ),
                   ),
                   ListTile(
                     onTap: () {},
@@ -127,9 +133,11 @@ class _Main_pagePageState extends State<Main_pagePage> {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 actions: [
-                  IconButton(onPressed: () {
-                    _onRefresh();
-                  }, icon: const Icon(Icons.refresh))
+                  IconButton(
+                      onPressed: () {
+                        _onRefresh();
+                      },
+                      icon: const Icon(Icons.refresh))
                   //IconButton(onPressed: () {}, icon: const Icon(Icons.search))
                 ]),
             body: Container(
@@ -179,10 +187,15 @@ class _Main_pagePageState extends State<Main_pagePage> {
                                             Container(
                                               margin: EdgeInsets.fromLTRB(
                                                   5, 5, 0, 5),
+                                              clipBehavior: Clip.hardEdge,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                              ),
                                               height: 40,
                                               width: 40,
                                               child: Image.asset(
-                                                "asset/ic_launcher.png",
+                                                "asset/chat_icon.png",
                                                 height: 40,
                                                 width: 40,
                                               ),

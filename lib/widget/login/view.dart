@@ -22,7 +22,11 @@ class LoginPage extends StatelessWidget {
           children: [
             Container(
                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-                child: Image.asset("asset/ic_launcher.png",
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Image.asset("asset/chat_icon.png",
                   height: 100,
                   width: 100,
                 )),

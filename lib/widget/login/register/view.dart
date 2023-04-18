@@ -35,9 +35,15 @@ class RegisterPage extends StatelessWidget {
                   margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
                   child: ListView(
                     children: [
-                      Image.asset("asset/ic_launcher.png",
-                        height: 100,
-                        width: 100,
+                      Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Image.asset("asset/chat_icon.png",
+                          height: 100,
+                          width: 100,
+                        ),
                       ),
                       Card(
                         child: SizedBox(

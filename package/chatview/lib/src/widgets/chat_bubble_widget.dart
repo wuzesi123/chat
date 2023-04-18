@@ -46,6 +46,7 @@ class ChatBubbleWidget extends StatefulWidget {
     this.messageConfig,
     this.onReplyTap,
     this.shouldHighlight = false,
+    this.textWidget,
   }) : super(key: key);
 
   /// Represent current instance of message.
@@ -91,6 +92,9 @@ class ChatBubbleWidget extends StatefulWidget {
   /// Flag for when user tap on replied message and highlight actual message.
   final bool shouldHighlight;
 
+  ///添加自定义widget
+  final Widget? textWidget;
+
   @override
   State<ChatBubbleWidget> createState() => _ChatBubbleWidgetState();
 }
@@ -123,27 +127,7 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
     final messagedUser = chatController?.getUserFromId(widget.message.sendBy);
     return Stack(
       children: [
-        if (featureActiveConfig?.enableSwipeToSeeTime ?? true) ...[
-          Visibility(
-            visible: widget.slideAnimation?.value.dx == 0.0 ? false : true,
-            child: Positioned.fill(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: MessageTimeWidget(
-                  messageTime: widget.message.createdAt,
-                  isCurrentUser: isMessageBySender,
-                  messageTimeIconColor: widget.messageTimeIconColor,
-                  messageTimeTextStyle: widget.messageTimeTextStyle,
-                ),
-              ),
-            ),
-          ),
-          SlideTransition(
-            position: widget.slideAnimation!,
-            child: _chatBubbleWidget(messagedUser),
-          ),
-        ] else
-          _chatBubbleWidget(messagedUser),
+        _chatBubbleWidget(messagedUser)
       ],
     );
   }
@@ -169,54 +153,11 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
               profileCirclePadding: profileCircleConfig?.padding,
               imageUrl: messagedUser?.profilePhoto,
               circleRadius: profileCircleConfig?.circleRadius,
-              onTap: () => _onAvatarTap(messagedUser),
-              onLongPress: () => _onAvatarLongPress(messagedUser),
             ),
           Expanded(
             child: isMessageBySender
-                ? SwipeToReply(
-                    onLeftSwipe: featureActiveConfig?.enableSwipeToReply ?? true
-                        ? () {
-                            if (maxDuration != null) {
-                              widget.message.voiceMessageDuration =
-                                  Duration(milliseconds: maxDuration!);
-                            }
-                            if (widget.swipeToReplyConfig?.onLeftSwipe !=
-                                null) {
-                              widget.swipeToReplyConfig?.onLeftSwipe!(
-                                  widget.message.message,
-                                  widget.message.sendBy);
-                            }
-                            widget.onSwipe(widget.message);
-                          }
-                        : null,
-                    replyIconColor: widget.swipeToReplyConfig?.replyIconColor,
-                    swipeToReplyAnimationDuration:
-                        widget.swipeToReplyConfig?.animationDuration,
-                    child: _messagesWidgetColumn(messagedUser),
-                  )
-                : SwipeToReply(
-                    onRightSwipe:
-                        featureActiveConfig?.enableSwipeToReply ?? true
-                            ? () {
-                                if (maxDuration != null) {
-                                  widget.message.voiceMessageDuration =
-                                      Duration(milliseconds: maxDuration!);
-                                }
-                                if (widget.swipeToReplyConfig?.onRightSwipe !=
-                                    null) {
-                                  widget.swipeToReplyConfig?.onRightSwipe!(
-                                      widget.message.message,
-                                      widget.message.sendBy);
-                                }
-                                widget.onSwipe(widget.message);
-                              }
-                            : null,
-                    replyIconColor: widget.swipeToReplyConfig?.replyIconColor,
-                    swipeToReplyAnimationDuration:
-                        widget.swipeToReplyConfig?.animationDuration,
-                    child: _messagesWidgetColumn(messagedUser),
-                  ),
+                ? _messagesWidgetColumn(messagedUser)
+                : _messagesWidgetColumn(messagedUser),
           ),
           if (isMessageBySender &&
               (featureActiveConfig?.enableCurrentUserProfileAvatar ?? true))
@@ -227,24 +168,10 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
               profileCirclePadding: profileCircleConfig?.padding,
               imageUrl: currentUser?.profilePhoto,
               circleRadius: profileCircleConfig?.circleRadius,
-              onTap: () => _onAvatarTap(messagedUser),
-              onLongPress: () => _onAvatarLongPress(messagedUser),
             ),
         ],
       ),
     );
-  }
-
-  void _onAvatarTap(ChatUser? user) {
-    if (profileCircleConfig?.onAvatarTap != null && user != null) {
-      profileCircleConfig?.onAvatarTap!(user);
-    }
-  }
-
-  void _onAvatarLongPress(ChatUser? user) {
-    if (profileCircleConfig?.onAvatarLongPress != null && user != null) {
-      profileCircleConfig?.onAvatarLongPress!(user);
-    }
   }
 
   Widget _messagesWidgetColumn(ChatUser? messagedUser) {
@@ -274,6 +201,7 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
                       ?.call(widget.message.replyMessage.messageId),
                 ),
         MessageView(
+          textWidget: widget.textWidget,
           outgoingChatBubbleConfig:
               widget.chatBubbleConfig?.outgoingChatBubbleConfig,
           isLongPressEnable:
@@ -305,11 +233,8 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
           highlightScale: widget.repliedMessageConfig
                   ?.repliedMsgAutoScrollConfig.highlightScale ??
               1.1,
-          onMaxDuration: _onMaxDuration,
         ),
       ],
     );
   }
-
-  void _onMaxDuration(int duration) => maxDuration = duration;
 }

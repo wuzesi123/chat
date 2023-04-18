@@ -48,6 +48,7 @@ class MessageView extends StatefulWidget {
     this.highlightScale = 1.2,
     this.messageConfig,
     this.onMaxDuration,
+    this.textWidget,
   }) : super(key: key);
 
   /// Provides message instance of chat.
@@ -91,6 +92,9 @@ class MessageView extends StatefulWidget {
   final bool isLongPressEnable;
   final Function(int)? onMaxDuration;
 
+  ///添加自定义widget
+  final Widget? textWidget;
+
   @override
   State<MessageView> createState() => _MessageViewState();
 }
@@ -129,21 +133,7 @@ class _MessageViewState extends State<MessageView>
       onDoubleTap: () {
         if (widget.onDoubleTap != null) widget.onDoubleTap!(widget.message);
       },
-      child: (() {
-        if (isLongPressEnable) {
-          return AnimatedBuilder(
-            builder: (_, __) {
-              return Transform.scale(
-                scale: 1 - _animationController!.value,
-                child: _messageView,
-              );
-            },
-            animation: _animationController!,
-          );
-        } else {
-          return _messageView;
-        }
-      }()),
+      child: _messageView,
     );
   }
 
@@ -203,6 +193,7 @@ class _MessageViewState extends State<MessageView>
             messageReactionConfig: messageConfig?.messageReactionConfig,
             highlightColor: widget.highlightColor,
             highlightMessage: widget.shouldHighlight,
+            textWidget: widget.textWidget,
           );
         } else if (widget.message.messageType.isVoice) {
           return VoiceMessageView(

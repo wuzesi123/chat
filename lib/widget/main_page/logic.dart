@@ -30,24 +30,20 @@ class Main_pageLogic extends GetxController {
       GlobalData.money.value = res.data!.data.info.money;
       GlobalData.phone.value = res.data!.data.info.phone;
       getChatRoom();
+      Map<String, dynamic> params = {
+        "uid": GlobalData.uid,
+        "sign": "",
+        "timestamp": DateTime.now().millisecondsSinceEpoch,
+      };
+      params["sign"] = SignUtil.getSign(params);
+      SocketClient.listenWebSocket(params, uid);
     } else {
       SnackBar.show("Chat", res.data!.msg);
     }
   }
 
   joinChat(String roomId) async {
-    Map<String, dynamic> params = {
-      "uid": GlobalData.uid,
-      "sign": "",
-      "timestamp": DateTime.now().millisecondsSinceEpoch,
-    };
-    params["sign"] = SignUtil.getSign(params);
-    SocketClient.chatController = ChatController(
-      initialMessageList: SocketClient.chatList,
-      scrollController: ScrollController(),
-      chatUsers: [ChatUser(id: '2', name: 'Chat')],
-    );
-    SocketClient.listenWebSocket(params, GlobalData.uid, roomId);
+    SocketClient.joinInRoom(GlobalData.uid, roomId);
   }
 
   createChatRoom() async {

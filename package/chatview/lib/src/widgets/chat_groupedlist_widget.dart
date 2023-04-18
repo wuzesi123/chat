@@ -45,7 +45,7 @@ class ChatGroupedListWidget extends StatefulWidget {
     this.profileCircleConfig,
     this.swipeToReplyConfig,
     this.repliedMessageConfig,
-    this.typeIndicatorConfig,
+    this.typeIndicatorConfig, this.textWidget,
   }) : super(key: key);
 
   /// Allow user to swipe to see time while reaction pop is not open.
@@ -90,6 +90,9 @@ class ChatGroupedListWidget extends StatefulWidget {
   /// Provide flag for turn on/off to see message crated time view when user
   /// swipe whole chat.
   final bool isEnableSwipeToSeeTime;
+
+  ///添加自定义widget
+  final Widget? textWidget;
 
   @override
   State<ChatGroupedListWidget> createState() => _ChatGroupedListWidgetState();
@@ -288,6 +291,7 @@ class _ChatGroupedListWidgetState extends State<ChatGroupedListWidget>
                 indexedItemBuilder: (context, message, index) {
                   return ChatBubbleWidget(
                     key: message.key,
+                    textWidget: widget.textWidget,
                     messageTimeTextStyle:
                         chatBackgroundConfig.messageTimeTextStyle,
                     messageTimeIconColor:

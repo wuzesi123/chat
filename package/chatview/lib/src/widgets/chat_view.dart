@@ -53,6 +53,7 @@ class ChatView extends StatefulWidget {
     required this.chatViewState,
     ChatViewStateConfiguration? chatViewStateConfig,
     this.featureActiveConfig = const FeatureActiveConfig(),
+    this.textWidget,
   })  : chatBackgroundConfig =
             chatBackgroundConfig ?? const ChatBackgroundConfiguration(),
         chatViewStateConfig =
@@ -130,6 +131,9 @@ class ChatView extends StatefulWidget {
 
   /// Provides parameter so user can assign ChatViewAppbar.
   final Widget? appBar;
+
+  ///添加自定义widget
+  final Widget? textWidget;
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -232,6 +236,7 @@ class _ChatViewState extends State<ChatView>
                       assignReplyMessage: (message) => _sendMessageKey
                           .currentState
                           ?.assignReplyMessage(message),
+                      textWidget: widget.textWidget,
                     ),
                   if (featureActiveConfig.enableTextField)
                     SendMessageWidget(
